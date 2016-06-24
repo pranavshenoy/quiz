@@ -1,41 +1,48 @@
 #main{
-	background-color: white;
-	width:50%;
-	margin-left:25%;
-	margin-top:5%;
-	border-radius: 10px;
-	transition:height 1s;
-	overflow:hidden;
+  background-color: white;
+  width:50%;
+  margin-left:25%;
+  margin-top:5%;
+  border-radius: 10px;
+  transition:height 1s;
+  overflow:hidden;
 }
 h1,h2{
-	text-align:center;
+  text-align:center;
 }
 .form-control{
-	margin-top:1%; 
+  margin-top:1%; 
 }
 .btn-primary{
-	width:20%;
-	margin-left:40%;
-	margin-top:2%;
-	margin-bottom: 2%
+  width:20%;
+  margin-left:40%;
+  margin-top:2%;
+  margin-bottom: 2%
 }
 ul{
  margin-left:25%;
  width:50%;	
 }
 .navbutton{
-	width:50%;
-	margin-top: 2%
+  width:50%;
+  margin-top: 2%
 }
 body{
-	background-color:#808080;
+  background-color:#808080;
+}
+#message{
+  background-color:#ff0033;
+  color:black;
+  opacity:0.8;
+  border-radius: 5px;
+  text-align: center;	
 }
 @media screen and (max-width:768px)
 {
- .g1{
+ .display_glyphicon{
  	display:visible;
  }
- .nt{
+ .no_glyphicon{
  display: none;
  }
  h1,h2{
@@ -44,7 +51,10 @@ body{
 }
 @media screen and (min-width:768px)
 {
-.g1{
- 	display:none;
-   }
+.no_glyphicon{
+ display: visible;
+ }
+.display_glyphicon{
+  display:visible;
+ }
 }

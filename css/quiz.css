@@ -1,83 +1,68 @@
 h1,h3{
-	text-align:center;
+  text-align:center;
 }
 #content{
-	background-color:grey;
-	border-radius:5px;
-	text-align:center;
-	min-height:350px;
-	color:black;
+  background-color:grey;
+  border-radius:5px;
+  text-align:center;
+  min-height:350px;
+  color:black;
 }
 #rules{
-	font-size: 20px;
+  font-size: 20px;
 }
-
 #start{
-	margin-top: 10%;
+  margin-top: 10%;
 }
-#rli{
-	margin-left:43%;
-}
-#scrboard{
- border:2px solid black;
- border-radius:5px;
-}
-#scr{
-	font-size:30px;
+#rule-li{
+  margin-left:43%;
 }
 #display_question{
- border:2px solid black;
- border-radius:5px;	
- background-color:lightblue; 
- margin-top:2%;
+  border:2px solid black;
+  border-radius:5px;	
+  background-color:lightblue; 
+  margin-top:2%;
 }
-#question_number{
- border:2px solid black;
-	}
+#question_number,#counter{
+  border:2px solid black;
+}
 #lists{
- height:200px;
- margin-top:2%;
- overflow-y:scroll;
-}
-#slabel{
- margin-top:10%;
- border-bottom: solid;
-}
-#cnt{
- margin-top:5%;	
+  height:200px;
+  margin-top:2%;
+  overflow-y:scroll;
 }
 .question_body{
- margin-top:2%;	
+  margin-top:2%;	
 }
 #finish_button{
- margin-top:20%;	
+  margin-top:20%;	
 }
 #options li{
-	list-style-type: none;
-	text-align:left;
-    border:2px solid black;
-	border-radius:5px;
-	/*background-color:#3399FF;	*/
+  list-style-type: none;
+  text-align:left;
+  border:2px solid black;
+  border-radius:5px;
 }
 #options li:hover{
-	text-align:center;
-	color:red;	
-	background-color:lightgrey;	
-
+  text-align:center;
+  color:red;	
+  background-color:lightgrey;	
 }
 #each_option{
-	margin-top:1%;
-	margin-left:1%;
+  margin-top:1%;
+  margin-left:1%;
 }
-.green{
-	background-color:green;	
-}
-.yellow{
-	background-color:yellow;	
+#message{
+	width:20%;
+	text-align: center;
+	margin-left:39%;
+	margin-top:5%;
+	font-size: 20px;
+	border-radius:5px;
 }
 .red{
-	background-color: 	#FF0030;	
+	background-color: #ff0033;
 }
-.black{
-	background-color:black;	
+.green{
+	background-color: green;
 }

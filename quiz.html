@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Task7</title>
+  <title>Quiz</title>
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -9,19 +9,25 @@
   <link href="css/quiz.css" rel="stylesheet">
   <script>
     var app = angular.module("myApp", []);
-    app.controller("myCtrl", function($scope, $http) {
+    app.controller("myCtrl", function($scope, $http,$timeout) {
       $scope.start = "true";
+      $scope.show_message=false;
       $scope.final_ans = [];
-      $scope.fun = function() {
+      $scope.url=window.location.href ;
+      $scope.first=$scope.url.substring($scope.url.indexOf('=')+1);
+      $scope.initialise = function() {
         $scope.start = !$scope.start;
         $http.get("https://arcane-wave-70796.herokuapp.com/api/questions").then(function(response) {
           $scope.data1 = response.data.questions;
           $scope.count = $scope.data1.length;
-          $scope.disp(0);
+          $scope.counter=$scope.count*2;
+          $scope.next(0);
           for (var i = 0; i < $scope.count; i++) $scope.final_ans[i] = "false";
         });
+        $scope.countdown();
       };
-      $scope.disp = function(x) {
+
+      $scope.next = function(x) {
         if (x < $scope.count) {
           $scope.qno = x + 1;
           $scope.option = _.pluck($scope.data1[x].answers, 'choice');
@@ -30,20 +36,53 @@
         } 
         else alert("no more questions");
       };
+
+      $scope.countdown = function() {
+        stopped = $timeout(function() {
+        console.log($scope.counter);
+        $scope.counter--;  
+        if($scope.counter==0)
+        {
+          $scope.stop();
+          $scope.finish();
+          alert("Timeout"); 
+        }
+        else
+          $scope.countdown();   
+        }, 1000);
+      };
+
+      $scope.stop = function(){
+        $timeout.cancel(stopped);
+      }  
+
+      $scope.getclass=function(){
+        if($scope.score>$scope.count*2.5)
+          return 'green';
+        else
+          return 'red';
+      }
+
       $scope.check = function(x) {
         $scope.final_ans[$scope.qno - 1] = $scope.data1[$scope.qno - 1].answers[x].is_correct;
-        $scope.disp($scope.qno);
+        $scope.next($scope.qno);
       };
+
       $scope.finish = function() {
         $scope.score = 0;
+        $scope.stop();
         for (var i = 0; i < $scope.count; i++) {
           if (angular.equals($scope.final_ans[i], true)) {
             console.log("true in loop");
             $scope.score += 5;
           }
         }
-        alert("Total correct answer :" + ($scope.score / 5) + "\nTotal wrong :" + ($scope.count - $scope.score / 5) + "\nYour Total Score is:" + $scope.score);
+        if($scope.score>$scope.count*2.5)
+          $scope.result="passed";
+        else
+          $scope.result="failed";
         $scope.start=true;
+        $scope.show_message=true;
       };
     });
   </script>
@@ -55,25 +94,34 @@
     <div class="row" id=rules>
       <div class="col-xs-12">
         <h3>Rules</h3>
-        <ul id="rli">
-          <li>Total Score:50</li>
+        <ul id="rule-li">
           <li>Each carry 5 marks.</li>
+          <li>Pass percentage is 50%.</li>
+          <li>You have only (2*number of questions) seconds for answering all questions.</li>
         </ul>
       </div>
     </div>
     <div class="row" id="content">
       <div class="row" ng-show=start>
-        <h2><b >Welcome!!</b></h2>
-        <button class="btn btn-primary " ng-click=fun()>Get Started!</button>
+        <h2><b >Welcome {{first}}</b></h2>
+        <button class="btn btn-primary " ng-click=initialise()>Get Started!</button>
+        <a class="btn btn-primary " href="login.html" ng-click=fun()>Log out</a>
+        <div id="message" ng-show="show_message" ng-class=getclass()>
+          Total correct Answers:{{score/5}}<br>
+          Total Wrong Answers:{{count-score/5}}<br>
+          Total Score:{{score}}<br>
+          Result:{{result |uppercase}}
+        </div>
       </div>
       <div class="col-sm-4 question_body" ng-hide=start>
         <ul class="list-group" id="lists">
-          <li class="list-group-item" ng-repeat="x in data1" ng-click="disp($index)">{{$index+1}}</li>
+          <li class="list-group-item" ng-repeat="x in data1" ng-click="next($index)">{{$index+1}}</li>
         </ul>
       </div>
       <div class="col-sm-7 question_body" ng-hide=start>
         <div class="row">
           <div class="col-sm-offset-5 col-xs-1" id="question_number"> <span id="qno">{{qno}}</span>/{{count}} </div>
+          <div class="col-sm-offset-5 col-xs-1" id="counter"> <span>{{counter}}</span> sec</div>
           <div class="col-xs-12" >
             <p class="col-xs-12" id="display_question">{{data1[qno-1].question}}</p>
             <form class="col-xs-12" role="form">

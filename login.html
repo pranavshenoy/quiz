@@ -28,12 +28,12 @@
           $http.post(baseurl + "/login", data, config)
             .success(function(response){
               if(response.success==true)
-                $window.location.href="quiz.html";
+                $window.location.href="quiz.html?first="+response.user.first_name;
               else
-                alert("could not log you in");
+                $scope.message="could not log you in";
             })
             .error(function (response){
-              alert("couldn't log you in");  
+              $scope.message="couldn't log you in";  
             });  
         };
         $scope.signIn=function(){
@@ -53,7 +53,7 @@
                 if(response.success==true)
                   alert("successfully signed up");
                 else
-                  alert("sign up failed");
+                  $scope.message="sign up failed";
               })
               .error(function (response){
                 console.log(response.error);
@@ -69,7 +69,7 @@
         document.getElementById('main').style.height='500px';
       }
       function transition_up(){
-        document.getElementById('main').style.height='300px';
+        document.getElementById('main').style.height='325px';
       }        
     </script>
   </head>
@@ -77,16 +77,17 @@
     <div class="container" id="main">
       <h1>Welcome</h1>
       <ul class="nav nav-tabs">
-          <li  class="btn btn-default active navbutton" data-toggle="tab" onclick="transition_down()" href="#signIn"><span class="glyphicon glyphicon-user "></span> <span >Sign-Up</span></li>
-          <li class="btn btn-default  navbutton" data-toggle="tab" onclick="transition_up()" href="#login"><span class="glyphicon glyphicon-log-in"></span><span>Log-In</span></li>
+          <li  class="btn btn-default active navbutton" data-toggle="tab" onclick="transition_down()" href="#signIn"><span class="glyphicon glyphicon-user display_glyphicon"></span> <span class="no_glyphicon" >Sign-Up</span></li>
+          <li class="btn btn-default  navbutton" data-toggle="tab" onclick="transition_up()" href="#login"><span class="glyphicon glyphicon-log-in display_glyphicon"></span><span class="no_glyphicon">Log-In</span></li>
       </ul>
       <div class="tab-content">
         <div id="login" class="tab-pane fade" >
-          <h2>Login.</h2>
+          <h2>Login</h2>
+          <div id=message>{{message}}</div>
           <form role="form"  method="post"  action="login.html">
             <input type="text" class="form-control" ng-model="email" placeholder="Enter your Email" id="email">
             <input type="password" class="form-control" ng-model="password" placeholder="Password" id="password">
-            <a type=submit class="btn btn-primary" ng-click=" login()"  ><span class="glyphicon glyphicon-ok-sign g1"></span><span class="nt">Submit</span></a>
+            <a type=submit class="btn btn-primary" ng-click=" login()"  ><span class="glyphicon glyphicon-ok-sign display_glyphicon"></span><span class="no_glyphicon">Submit</span></a>
           </form>
         </div>
         <div id="signIn" class="tab-pane fade in active">
@@ -99,7 +100,7 @@
             <input type="password" class="form-control" placeholder="Retype Password" ng-model="rpassword">
             <input type="text" class="form-control" placeholder="City" ng-model="city">
             <input type="text" class="form-control" placeholder="contact" ng-model="contact">
-            <a type=submit class="btn btn-primary" ng-click=signIn() ><span class="glyphicon glyphicon-ok-sign g1"></span><span >Submit</span></a>
+            <a type=submit class="btn btn-primary" ng-click=signIn() ><span class="glyphicon glyphicon-ok-sign display_glyphicon"></span><span  class="no_glyphicon">Submit</span></a>
           </form>
         </div>
       </div>
