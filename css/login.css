@@ -1,0 +1,50 @@
+#main{
+	background-color: white;
+	width:50%;
+	margin-left:25%;
+	margin-top:5%;
+	border-radius: 10px;
+	transition:height 1s;
+	overflow:hidden;
+}
+h1,h2{
+	text-align:center;
+}
+.form-control{
+	margin-top:1%; 
+}
+.btn-primary{
+	width:20%;
+	margin-left:40%;
+	margin-top:2%;
+	margin-bottom: 2%
+}
+ul{
+ margin-left:25%;
+ width:50%;	
+}
+.navbutton{
+	width:50%;
+	margin-top: 2%
+}
+body{
+	background-color:#808080;
+}
+@media screen and (max-width:768px)
+{
+ .g1{
+ 	display:visible;
+ }
+ .nt{
+ display: none;
+ }
+ h1,h2{
+ 	font-size:20px;
+ }
+}
+@media screen and (min-width:768px)
+{
+.g1{
+ 	display:none;
+   }
+}

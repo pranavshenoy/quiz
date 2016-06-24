@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task7</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="http://underscorejs.org/underscore-min.js"></script>
+  <link href="css/quiz.css" rel="stylesheet">
+  <script>
+    var app = angular.module("myApp", []);
+    app.controller("myCtrl", function($scope, $http) {
+      $scope.start = "true";
+      $scope.final_ans = [];
+      $scope.fun = function() {
+        $scope.start = !$scope.start;
+        $http.get("https://arcane-wave-70796.herokuapp.com/api/questions").then(function(response) {
+          $scope.data1 = response.data.questions;
+          $scope.count = $scope.data1.length;
+          $scope.disp(0);
+          for (var i = 0; i < $scope.count; i++) $scope.final_ans[i] = "false";
+        });
+      };
+      $scope.disp = function(x) {
+        if (x < $scope.count) {
+          $scope.qno = x + 1;
+          $scope.option = _.pluck($scope.data1[x].answers, 'choice');
+          if ($scope.qno == $scope.count) $scope.btn1 = "true";
+          else $scope.btn1 = "false";
+        } 
+        else alert("no more questions");
+      };
+      $scope.check = function(x) {
+        $scope.final_ans[$scope.qno - 1] = $scope.data1[$scope.qno - 1].answers[x].is_correct;
+        $scope.disp($scope.qno);
+      };
+      $scope.finish = function() {
+        $scope.score = 0;
+        for (var i = 0; i < $scope.count; i++) {
+          if (angular.equals($scope.final_ans[i], true)) {
+            console.log("true in loop");
+            $scope.score += 5;
+          }
+        }
+        alert("Total correct answer :" + ($scope.score / 5) + "\nTotal wrong :" + ($scope.count - $scope.score / 5) + "\nYour Total Score is:" + $scope.score);
+        $scope.start=true;
+      };
+    });
+  </script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+  <div class="container">
+    <h1>Quiz</h1>
+    <div class="row" id=rules>
+      <div class="col-xs-12">
+        <h3>Rules</h3>
+        <ul id="rli">
+          <li>Total Score:50</li>
+          <li>Each carry 5 marks.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row" id="content">
+      <div class="row" ng-show=start>
+        <h2><b >Welcome!!</b></h2>
+        <button class="btn btn-primary " ng-click=fun()>Get Started!</button>
+      </div>
+      <div class="col-sm-4 question_body" ng-hide=start>
+        <ul class="list-group" id="lists">
+          <li class="list-group-item" ng-repeat="x in data1" ng-click="disp($index)">{{$index+1}}</li>
+        </ul>
+      </div>
+      <div class="col-sm-7 question_body" ng-hide=start>
+        <div class="row">
+          <div class="col-sm-offset-5 col-xs-1" id="question_number"> <span id="qno">{{qno}}</span>/{{count}} </div>
+          <div class="col-xs-12" >
+            <p class="col-xs-12" id="display_question">{{data1[qno-1].question}}</p>
+            <form class="col-xs-12" role="form">
+              <div >
+                <ul id="options">
+                  <li class="col-sm-5" id="each_option" ng-click=check($index) ng-repeat="op in option">{{op}}</li>
+                </ul>
+              </div>
+              <div id="finish_button">
+                <button type="button" class="btn btn-success col-sm-offset-6 col-sm-3" ng-click=finish()>Finish Test</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
